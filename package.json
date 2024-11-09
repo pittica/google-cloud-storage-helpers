@@ -1,0 +1,39 @@
+{
+  "name": "@pittica/google-cloud-storage-helpers",
+  "private": false,
+  "version": "1.0.0",
+  "description": "Helpers for Google Cloud Storage.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf ./dist && mkdirp ./dist && babel src --out-dir dist --copy-files",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "download": "npm run build && run-func ./dist/scripts.js download"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pittica/google-cloud-storage-helpers.git"
+  },
+  "keywords": [
+    "pittica",
+    "storage",
+    "google-cloud-platform",
+    "gcp"
+  ],
+  "author": "Lucio Benini <lucio.benini@pittica.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/pittica/google-cloud-storage-helpers/issues"
+  },
+  "homepage": "https://github.com/pittica/google-cloud-storage-helpers#README.md",
+  "dependencies": {
+    "@google-cloud/storage": "^7.14.0",
+    "@pittica/logger-helpers": "^0.9.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "mkdirp": "^3.0.1",
+    "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
+    "run-func": "^3.0.0"
+  }
+}
