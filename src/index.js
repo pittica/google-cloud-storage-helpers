@@ -12,15 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { copyFile, deleteFile, moveFiles } = require("./storage/file")
-const { downloadBucket, downloadFile, downloadFolder } = require("./storage/download")
+const {
+  copyFile,
+  deleteFile,
+  moveFiles,
+  getFiles,
+  copiedFile,
+} = require("./storage/file")
+const {
+  downloadBucket,
+  downloadFile,
+  downloadFolder,
+} = require("./storage/download")
 const { writeJson, groupJson } = require("./storage/json")
+const { getStorage } = require("./storage/storage")
 
 exports.copyFile = copyFile
 exports.deleteFile = deleteFile
 exports.moveFiles = moveFiles
+exports.getFiles = getFiles
+exports.copiedFile = copiedFile
 exports.writeJson = writeJson
 exports.groupJson = groupJson
 exports.downloadFile = downloadFile
 exports.downloadBucket = downloadBucket
 exports.downloadFolder = downloadFolder
+exports.getStorage = getStorage

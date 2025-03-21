@@ -75,3 +75,32 @@ exports.deleteFile = (file) =>
       return res.statusCode >= 200 && res.statusCode < 300
     })
     .catch(() => false)
+
+/**
+ * Gets the files from the given bucket.
+ *
+ * @param {Storage} storage Google Cloud Storage object.
+ * @param {string} bucket Bucket name.
+ * @param {string} prefix Files prefix.
+ * @returns {Array} Files from the given bucket.
+ */
+exports.getFiles = (storage, source, prefix) =>
+  storage
+    .bucket(source)
+    .getFiles({ prefix })
+    .then((files) => files)
+    .catch(() => [])
+
+/**
+ * Process the response from copy API and extracts the response file object.
+ *
+ * @param {Array} response Response.
+ * @returns {File} File object or a null value.
+ */
+exports.copiedFile = (response) => {
+  if (typeof response[1] !== "undefined" && response[1].done) {
+    return response[0]
+  }
+
+  return null
+}
