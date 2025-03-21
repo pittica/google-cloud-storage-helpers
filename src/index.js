@@ -1,4 +1,4 @@
-// Copyright 2024 Pittica S.r.l.
+// Copyright 2024-2025 Pittica S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,13 +13,14 @@
 // limitations under the License.
 
 const { copyFile, deleteFile, moveFiles } = require("./storage/file")
-const { bucket, file, folder } = require("./storage/download")
-const { write } = require("./storage/json")
+const { downloadBucket, downloadFile, downloadFolder } = require("./storage/download")
+const { writeJson, groupJson } = require("./storage/json")
 
 exports.copyFile = copyFile
 exports.deleteFile = deleteFile
 exports.moveFiles = moveFiles
-exports.downloadFile = file
-exports.downloadBucket = bucket
-exports.downloadFolder = folder
-exports.writeJson = write
+exports.writeJson = writeJson
+exports.groupJson = groupJson
+exports.downloadFile = downloadFile
+exports.downloadBucket = downloadBucket
+exports.downloadFolder = downloadFolder

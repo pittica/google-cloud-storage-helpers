@@ -1,4 +1,4 @@
-// Copyright 2024 Pittica S.r.l.
+// Copyright 2024-2025 Pittica S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ const fs = require("fs")
  * @param {string} bucket Bucket name.
  * @param {string} destination Destination path.
  */
-exports.bucket = async (bucket, destination = __dirname) => {
+exports.downloadBucket = async (bucket, destination = __dirname) => {
   const storage = new Storage()
   const source = storage.bucket(bucket)
   const [files] = await source.getFiles()
 
-  files.forEach(({ name }) => this.file(name, source, destination))
+  files.forEach(({ name }) => this.downloadFile(name, source, destination))
 }
 
 /**
@@ -38,7 +38,7 @@ exports.bucket = async (bucket, destination = __dirname) => {
  * @param {Bucket} bucket Google Cloud Storage bucket object.
  * @param {string} directory Destination directory.
  */
-exports.file = async (file, bucket, directory = __dirname) => {
+exports.downloadFile = async (file, bucket, directory = __dirname) => {
   const destination = path.join(directory, file)
   const folder = path.dirname(destination)
 
@@ -48,9 +48,7 @@ exports.file = async (file, bucket, directory = __dirname) => {
 
   return bucket
     .file(file)
-    .download({
-      destination,
-    })
+    .download({ destination })
     .then(() => log.info(`Downloading "${file}".`))
     .catch(() => log.error(`Failed downloading "${file}".`))
 }
@@ -64,7 +62,7 @@ exports.file = async (file, bucket, directory = __dirname) => {
  *
  * @returns {Promise}
  */
-exports.folder = (folder, bucket, directory = __dirname) => {
+exports.downloadFolder = (folder, bucket, directory = __dirname) => {
   const storage = new Storage()
   const manager = new TransferManager(storage.bucket(bucket))
   const destination = path.join(directory, folder)
@@ -74,8 +72,6 @@ exports.folder = (folder, bucket, directory = __dirname) => {
   }
 
   return manager.downloadManyFiles(folder, {
-    passthroughOptions: {
-      destination: directory,
-    },
+    passthroughOptions: { destination: directory },
   })
 }

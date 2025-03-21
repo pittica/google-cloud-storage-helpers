@@ -1,7 +1,7 @@
 {
   "name": "@pittica/google-cloud-storage-helpers",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Helpers for Google Cloud Storage.",
   "main": "dist/index.js",
   "scripts": {
@@ -26,13 +26,13 @@
   },
   "homepage": "https://github.com/pittica/google-cloud-storage-helpers#README.md",
   "dependencies": {
-    "@google-cloud/storage": "^7.14.0",
+    "@google-cloud/storage": "^7.15.2",
     "@pittica/logger-helpers": "^0.9.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.25.9",
+    "@babel/cli": "^7.26.4",
     "mkdirp": "^3.0.1",
-    "prettier": "^3.3.3",
+    "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "run-func": "^3.0.0"
   }

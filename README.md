@@ -15,7 +15,7 @@ This project uses [Cloud Storage](https://cloud.google.com/storage/docs) librari
 
 This project is licensed.
 
-Copyright 2024 **Pittica S.r.l.**.
+Copyright 2024-2025 **Pittica S.r.l.**.
 
 - [pittica.com](https://pittica.com)
 - [info@pittica.com](mailto:info@pittica.com)

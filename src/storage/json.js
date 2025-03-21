@@ -1,4 +1,4 @@
-// Copyright 2024 Pittica S.r.l.
+// Copyright 2024-2025 Pittica S.r.l.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,17 +23,13 @@ const log = require("@pittica/logger-helpers")
  *
  * @returns {boolean} Write action response.
  */
-exports.write = async (file, body, bucket) => {
+exports.writeJson = async (file, body, bucket) => {
   const storage = new Storage()
 
   const stream = storage
     .bucket(bucket)
     .file(file)
-    .createWriteStream({
-      metadata: {
-        contentType: "application/json",
-      },
-    })
+    .createWriteStream({ metadata: { contentType: "application/json" } })
 
   stream.on("error", (error) => log.error(error))
   stream.on("finish", () => log.success(`"${file}" has been written.`))
@@ -41,4 +37,29 @@ exports.write = async (file, body, bucket) => {
   const buffer = Buffer.from(JSON.stringify(body))
 
   return stream.end(buffer)
+}
+
+/**
+ * Group files by table.
+ *
+ * @param {Array} files An array of files.
+ */
+exports.groupJson = (files) => {
+  const result = {}
+
+  files.forEach((file) => {
+    if (file.endsWith(".json")) {
+      const group = file.split(/^(.*)\-[\d]+\.json$/gis)
+
+      if (group.length > 1) {
+        if (typeof result[group[1]] === "undefined") {
+          result[group[1]] = []
+        }
+
+        result[group[1]].push(file)
+      }
+    }
+  })
+
+  return result
 }
