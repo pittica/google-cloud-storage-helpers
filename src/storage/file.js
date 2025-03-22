@@ -14,6 +14,7 @@
 
 const { Storage } = require("@google-cloud/storage")
 const log = require("@pittica/logger-helpers")
+const { getStorage } = require("./storage")
 
 /**
  * Moves all files from a bucket to another.
@@ -22,32 +23,42 @@ const log = require("@pittica/logger-helpers")
  * @param {string} destination Destination bucket.
  */
 exports.moveFiles = async (source, destination) => {
-  const storage = new Storage({
-    retryOptions: { autoRetry: true, retryDelayMultiplier: 4 },
-  })
+  const storage = getStorage()
   const bucket = storage.bucket(destination)
   const [files] = await storage.bucket(source).getFiles()
 
   files.forEach((results) =>
-    results.forEach((file) => {
-      const { id } = file
-
-      log.info(`Moving "${id}" from "${source}" to "${destination}"`)
-
-      file
-        .copy(bucket.file(id))
-        .then(() =>
-          this.deleteFile(file)
-            ? log.success(`Moved "${id}" from "${source}" to "${destination}"`)
-            : log.error(`Failed deleted "${id}" in "${source}"`)
+    Array.isArray(results)
+      ? results.forEach((file) =>
+          this.moveFile(file, bucket)
         )
-        .catch(() =>
-          log.error(
-            `Failed moving "${id}" from "${source}" to "${destination}"`
-          )
-        )
-    })
+      : this.moveFile(results, bucket)
   )
+}
+
+/**
+ * Moves a file from a bucket to another.
+ *
+ * @param {File} file File object.
+ * @param {Bucket} bucket Bucket object.
+ */
+exports.moveFile = async (file, bucket) => {
+  const { id } = file
+  const source = file.metadata.bucket
+  const destination = bucket.id
+
+  log.info(`Moving "${id}" from "${source}" to "${destination}"`)
+
+  file
+    .copy(bucket.file(id))
+    .then(() =>
+      this.deleteFile(file)
+        ? log.success(`Moved "${id}" from "${source}" to "${destination}"`)
+        : log.error(`Failed deleted "${id}" in "${source}"`)
+    )
+    .catch(() =>
+      log.error(`Failed moving "${id}" from "${source}" to "${destination}"`)
+    )
 }
 
 /**
