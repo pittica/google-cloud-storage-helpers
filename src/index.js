@@ -17,6 +17,8 @@ const {
   deleteFile,
   moveFiles,
   getFiles,
+  listFiles,
+  listFolders,
   copiedFile,
 } = require("./storage/file")
 const {
@@ -31,6 +33,8 @@ exports.copyFile = copyFile
 exports.deleteFile = deleteFile
 exports.moveFiles = moveFiles
 exports.getFiles = getFiles
+exports.listFiles = listFiles
+exports.listFolders = listFolders
 exports.copiedFile = copiedFile
 exports.writeJson = writeJson
 exports.groupJson = groupJson
