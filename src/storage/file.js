@@ -29,9 +29,7 @@ exports.moveFiles = async (source, destination) => {
 
   files.forEach((results) =>
     Array.isArray(results)
-      ? results.forEach((file) =>
-          this.moveFile(file, bucket)
-        )
+      ? results.forEach((file) => this.moveFile(file, bucket))
       : this.moveFile(results, bucket)
   )
 }
@@ -98,8 +96,50 @@ exports.deleteFile = (file) =>
 exports.getFiles = (storage, source, prefix) =>
   storage
     .bucket(source)
-    .getFiles({ prefix })
+    .getFiles({ prefix, autoPaginate: false })
     .then((files) => files)
+    .catch(() => [])
+
+/**
+ * Lists the files from the given bucket.
+ *
+ * @param {string} bucket Bucket name.
+ * @param {string} prefix Files prefix.
+ * @returns {Array} Files from the given bucket.
+ * @since 1.3.0
+ */
+exports.listFiles = (source, prefix) =>
+  getStorage()
+    .bucket(source)
+    .getFiles({ prefix, autoPaginate: false, fields: "items(name)" })
+    .then((res) => {
+      const [items] = res
+      return items.map(({ name }) => name)
+    })
+    .catch(() => [])
+
+/**
+ * Lists the folders from the given bucket.
+ *
+ * @param {string} bucket Bucket name.
+ * @param {string} prefix Files prefix.
+ * @returns {Array} Folders from the given bucket.
+ * @since 1.3.0
+ */
+exports.listFolders = async (source, prefix = "") =>
+  await getStorage()
+    .bucket(source)
+    .getFiles({
+      prefix,
+      autoPaginate: false,
+      delimiter: "/",
+      fields: "prefixes",
+    })
+    .then((res) => {
+      const [, , { prefixes }] = res
+
+      return prefixes.map((prefix) => prefix.replace(/\/+$/, ""))
+    })
     .catch(() => [])
 
 /**
