@@ -27,7 +27,7 @@
   "homepage": "https://github.com/pittica/google-cloud-storage-helpers#README.md",
   "dependencies": {
     "@google-cloud/storage": "^7.18.0",
-    "@pittica/logger-helpers": "^1.0.3"
+    "@pittica/logger-helpers": "^1.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.28.3",
