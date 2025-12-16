@@ -1,4 +1,4 @@
-name: NPM Registry
+name: GitHub Public Registry
 
 on:
   release:
@@ -6,17 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish-npm:
+  publish-gpr:
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
       contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: https://registry.npmjs.org
+          registry-url: https://npm.pkg.github.com/
       - name: CI
         run: npm ci
       - name: Build
@@ -24,3 +24,5 @@ jobs:
       - name: Publish
         working-directory: ./
         run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
