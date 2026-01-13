@@ -29,8 +29,8 @@ exports.moveFiles = async (source, destination) => {
 
   files.forEach((results) =>
     Array.isArray(results)
-      ? results.forEach((file) => this.moveFile(file, bucket))
-      : this.moveFile(results, bucket)
+      ? results.forEach((file) => exports.moveFile(file, bucket))
+      : exports.moveFile(results, bucket)
   )
 }
 
@@ -50,7 +50,7 @@ exports.moveFile = async (file, bucket) => {
   file
     .copy(bucket.file(id))
     .then(() =>
-      this.deleteFile(file)
+      exports.deleteFile(file)
         ? log.success(`Moved "${id}" from "${source}" to "${destination}"`)
         : log.error(`Failed deleted "${id}" in "${source}"`)
     )

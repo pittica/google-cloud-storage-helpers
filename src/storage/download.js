@@ -28,7 +28,7 @@ exports.downloadBucket = async (bucket, destination = __dirname) => {
   const source = storage.bucket(bucket)
   const [files] = await source.getFiles()
 
-  files.forEach(({ name }) => this.downloadFile(name, source, destination))
+  files.forEach(({ name }) => exports.downloadFile(name, source, destination))
 }
 
 /**

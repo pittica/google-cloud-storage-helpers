@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { bucket } = require("./storage/download")
+const { downloadBucket } = require("./storage/download")
 
 /**
  * Downloads all files from the given bucket.
@@ -21,4 +21,4 @@ const { bucket } = require("./storage/download")
  * @param {string} destination Destination path.
  */
 exports.download = async (name, destination = __dirname) =>
-  bucket(name, destination)
+  downloadBucket(name, destination)
