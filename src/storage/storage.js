@@ -23,3 +23,12 @@ exports.getStorage = () =>
   new Storage({
     retryOptions: { autoRetry: true, retryDelayMultiplier: 4 },
   })
+
+/**
+ * Gets a Google Cloud Storage bucket.
+ *
+ * @param {string} bucket Bucket name.
+ * @returns {Storage} A Google Cloud Storage client.
+ * @since 1.4.0
+ */
+exports.getBucket = (bucket) => exports.getStorage().bucket(bucket)

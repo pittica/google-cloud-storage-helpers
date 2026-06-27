@@ -27,7 +27,7 @@ const {
   downloadFolder,
 } = require("./storage/download")
 const { writeJson, groupJson } = require("./storage/json")
-const { getStorage } = require("./storage/storage")
+const { getStorage, getBucket } = require("./storage/storage")
 
 exports.copyFile = copyFile
 exports.deleteFile = deleteFile
@@ -42,3 +42,4 @@ exports.downloadFile = downloadFile
 exports.downloadBucket = downloadBucket
 exports.downloadFolder = downloadFolder
 exports.getStorage = getStorage
+exports.getBucket = getBucket

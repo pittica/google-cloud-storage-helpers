@@ -59,8 +59,7 @@ exports.downloadFile = async (file, bucket, directory = __dirname) => {
  * @param {string} folder Folder name.
  * @param {Bucket} bucket Google Cloud Storage bucket object.
  * @param {string} directory Destination directory.
- *
- * @returns {Promise}
+ * @returns {Promise} Response.
  */
 exports.downloadFolder = (folder, bucket, directory = __dirname) => {
   const storage = new Storage()
