@@ -27,6 +27,7 @@ const {
   downloadFolder,
 } = require("./storage/download")
 const { writeJson, groupJson } = require("./storage/json")
+const { txtContentToArray } = require("./storage/txt")
 const { getStorage, getBucket } = require("./storage/storage")
 
 exports.copyFile = copyFile
@@ -43,3 +44,4 @@ exports.downloadBucket = downloadBucket
 exports.downloadFolder = downloadFolder
 exports.getStorage = getStorage
 exports.getBucket = getBucket
+exports.txtContentToArray = txtContentToArray
