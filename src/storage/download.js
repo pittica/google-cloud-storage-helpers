@@ -13,7 +13,7 @@
 // limitations under the License.
 
 const path = require("path")
-const { Storage, TransferManager } = require("@google-cloud/storage")
+const { TransferManager } = require("@google-cloud/storage")
 const log = require("@pittica/logger-helpers")
 const fs = require("fs")
 
@@ -22,9 +22,14 @@ const fs = require("fs")
  *
  * @param {string} bucket Bucket name.
  * @param {string} destination Destination path.
+ * @param {string} projectId Optional project ID.
  */
-exports.downloadBucket = async (bucket, destination = __dirname) => {
-  const storage = new Storage()
+exports.downloadBucket = async (
+  bucket,
+  destination = __dirname,
+  projectId = null
+) => {
+  const storage = getStorage(projectId)
   const source = storage.bucket(bucket)
   const [files] = await source.getFiles()
 
@@ -59,10 +64,16 @@ exports.downloadFile = async (file, bucket, directory = __dirname) => {
  * @param {string} folder Folder name.
  * @param {Bucket} bucket Google Cloud Storage bucket object.
  * @param {string} directory Destination directory.
+ * @param {string} projectId Optional project ID.
  * @returns {Promise} Response.
  */
-exports.downloadFolder = (folder, bucket, directory = __dirname) => {
-  const storage = new Storage()
+exports.downloadFolder = (
+  folder,
+  bucket,
+  directory = __dirname,
+  projectId = null
+) => {
+  const storage = getStorage(projectId)
   const manager = new TransferManager(storage.bucket(bucket))
   const destination = path.join(directory, folder)
 

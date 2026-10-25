@@ -17,10 +17,12 @@ const { Storage } = require("@google-cloud/storage")
 /**
  * Gets a Google Cloud Storage client with default settings.
  *
+ * @param {string} projectId Optional project ID.
  * @returns {Storage} A Google Cloud Storage client.
  */
-exports.getStorage = () =>
+exports.getStorage = (projectId = null) =>
   new Storage({
+    projectId,
     retryOptions: { autoRetry: true, retryDelayMultiplier: 4 },
   })
 
@@ -28,7 +30,9 @@ exports.getStorage = () =>
  * Gets a Google Cloud Storage bucket.
  *
  * @param {string} bucket Bucket name.
+ * @param {string} projectId Optional project ID.
  * @returns {Storage} A Google Cloud Storage client.
  * @since 1.4.0
  */
-exports.getBucket = (bucket) => exports.getStorage().bucket(bucket)
+exports.getBucket = (bucket, projectId = null) =>
+  exports.getStorage(projectId).bucket(bucket)

@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { Storage } = require("@google-cloud/storage")
 const log = require("@pittica/logger-helpers")
-const { getStorage } = require("./storage")
+const { getStorage, getBucket } = require("./storage")
 
 /**
  * Moves all files from a bucket to another.
  *
  * @param {string} source Source bucket.
  * @param {string} destination Destination bucket.
+ * @param {string} projectId Optional project ID.
  */
-exports.moveFiles = async (source, destination) => {
-  const storage = getStorage()
+exports.moveFiles = async (source, destination, projectId = null) => {
+  const storage = getStorage(projectId)
   const bucket = storage.bucket(destination)
   const [files] = await storage.bucket(source).getFiles()
 
@@ -105,11 +105,12 @@ exports.getFiles = (storage, source, prefix) =>
  *
  * @param {string} bucket Bucket name.
  * @param {string} prefix Files prefix.
+ * @param {string} projectId Optional project ID.
  * @returns {Array} Files from the given bucket.
  * @since 1.3.0
  */
-exports.listFiles = (source, prefix) =>
-  getStorage()
+exports.listFiles = (source, prefix, projectId = null) =>
+  getStorage(projectId)
     .bucket(source)
     .getFiles({ prefix, autoPaginate: false, fields: "items(name)" })
     .then((res) => {
@@ -123,11 +124,12 @@ exports.listFiles = (source, prefix) =>
  *
  * @param {string} bucket Bucket name.
  * @param {string} prefix Files prefix.
+ * @param {string} projectId Optional project ID.
  * @returns {Array} Folders from the given bucket.
  * @since 1.3.0
  */
-exports.listFolders = async (source, prefix = "") =>
-  await getStorage()
+exports.listFolders = async (source, prefix = "", projectId = null) =>
+  await getStorage(projectId)
     .bucket(source)
     .getFiles({
       prefix,
@@ -154,4 +156,19 @@ exports.copiedFile = (response) => {
   }
 
   return null
+}
+
+/**
+ * Downloads a file from Google Cloud Storage.
+ *
+ * @param {string} file File name and path.
+ * @param {string} bucket Bucket name.
+ * @param {string} projectId Optional project ID.
+ * @returns {Buffer} File content.
+ * @since 1.5.0
+ */
+exports.readFile = async (file, bucket, projectId = null) => {
+  const [contents] = await getBucket(bucket, projectId).file(file).download()
+
+  return Buffer.from(contents)
 }

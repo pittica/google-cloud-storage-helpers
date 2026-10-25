@@ -13,8 +13,8 @@
 // limitations under the License.
 
 const { finished } = require("stream/promises")
-const { Storage } = require("@google-cloud/storage")
 const log = require("@pittica/logger-helpers")
+const { getStorage } = require("./storage")
 
 /**
  * Writes JSON data.
@@ -22,12 +22,12 @@ const log = require("@pittica/logger-helpers")
  * @param {string} file File name and path.
  * @param {object} body Document body.
  * @param {string} bucket Bucket name.
- *
+ * @param {string} projectId Optional project ID.
  * @returns {boolean} A value indicating whether the operation was successful.
  */
-exports.writeJson = async (file, body, bucket) => {
+exports.writeJson = async (file, body, bucket, projectId = null) => {
   const buffer = Buffer.from(JSON.stringify(body))
-  const storage = new Storage()
+  const storage = getStorage(projectId)
   const stream = storage
     .bucket(bucket)
     .file(file)
@@ -51,7 +51,6 @@ exports.writeJson = async (file, body, bucket) => {
  * Group files by table.
  *
  * @param {Array} files An array of files.
- *
  * @returns {Object} An object with grouped files.
  */
 exports.groupJson = (files) => {

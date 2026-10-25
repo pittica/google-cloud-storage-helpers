@@ -12,22 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { Storage } = require("@google-cloud/storage")
+const { readFile } = require("./file")
 
 /**
  * Converts text content to an array.
  *
  * @param {string} file File name and path.
  * @param {string} bucket Bucket name.
- *
+ * @param {string} projectId Optional project ID.
  * @returns {Array} File content.
  */
-exports.txtContentToArray = async (file, bucket) => {
-  const storage = new Storage()
-
-  const [contents] = await storage.bucket(bucket).file(file).download()
-
-  const buffer = Buffer.from(contents)
+exports.txtContentToArray = async (file, bucket, projectId = null) => {
+  const buffer = await readFile(file, bucket, projectId)
 
   return buffer
     .toString()

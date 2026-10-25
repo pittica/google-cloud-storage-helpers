@@ -19,6 +19,7 @@ const { downloadBucket } = require("./storage/download")
  *
  * @param {string} name Bucket name.
  * @param {string} destination Destination path.
+ * @param {string} projectId Optional project ID.
  */
-exports.download = async (name, destination = __dirname) =>
-  downloadBucket(name, destination)
+exports.download = async (name, destination = __dirname, projectId = null) =>
+  downloadBucket(name, destination, projectId)

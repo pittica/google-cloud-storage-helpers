@@ -20,6 +20,7 @@ const {
   listFiles,
   listFolders,
   copiedFile,
+  readFile,
 } = require("./storage/file")
 const {
   downloadBucket,
@@ -37,6 +38,7 @@ exports.getFiles = getFiles
 exports.listFiles = listFiles
 exports.listFolders = listFolders
 exports.copiedFile = copiedFile
+exports.readFile = readFile
 exports.writeJson = writeJson
 exports.groupJson = groupJson
 exports.downloadFile = downloadFile
