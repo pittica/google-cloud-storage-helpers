@@ -190,7 +190,7 @@ exports.getFileCaseInsensitive = async (
   projectId = null
 ) => {
   const escaped = `${RegExp.escape(filename)}$`
-  const [file] = await listFiles(bucket, prefix, projectId)
+  const [file] = await exports.listFiles(bucket, prefix, projectId)
     .then((files) =>
       files
         .filter((file) => {
