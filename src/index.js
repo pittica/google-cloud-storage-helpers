@@ -17,6 +17,7 @@ const {
   deleteFile,
   moveFiles,
   getFiles,
+  getFileCaseInsensitive,
   listFiles,
   listFolders,
   copiedFile,
@@ -35,6 +36,7 @@ exports.copyFile = copyFile
 exports.deleteFile = deleteFile
 exports.moveFiles = moveFiles
 exports.getFiles = getFiles
+exports.getFileCaseInsensitive = getFileCaseInsensitive
 exports.listFiles = listFiles
 exports.listFolders = listFolders
 exports.copiedFile = copiedFile
