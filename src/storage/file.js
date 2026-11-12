@@ -172,3 +172,38 @@ exports.readFile = async (file, bucket, projectId = null) => {
 
   return Buffer.from(contents)
 }
+
+/**
+ * Gets a file from the given bucket, case-insensitively.
+ *
+ * @param {string} bucket Bucket name.
+ * @param {string} filename File name to search for.
+ * @param {string} prefix Files prefix.
+ * @param {string} projectId Optional project ID.
+ * @returns {string|null} File name or null if not found.
+ * @since 1.7.0
+ */
+exports.getFileCaseInsensitive = async (
+  bucket,
+  filename,
+  prefix = null,
+  projectId = null
+) => {
+  const escaped = `${RegExp.escape(filename)}$`
+  const [file] = await listFiles(bucket, prefix, projectId)
+    .then((files) =>
+      files
+        .filter((file) => {
+          const regex = new RegExp(escaped, "gis")
+
+          return regex.test(file)
+        })
+        .sort((file) => {
+          const regex = new RegExp(escaped, "gs")
+          return regex.test(file) ? -1 : 1
+        })
+    )
+    .catch(() => [])
+
+  return file || null
+}
