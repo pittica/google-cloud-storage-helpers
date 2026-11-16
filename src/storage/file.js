@@ -151,7 +151,10 @@ exports.listFolders = async (source, prefix = "", projectId = null) =>
  * @returns {File} File object or a null value.
  */
 exports.copiedFile = (response) => {
-  if (typeof response[1] !== "undefined" && response[1].done) {
+  if (
+    typeof response[1] !== "undefined" &&
+    (response[1].done || response[1]?.data?.done)
+  ) {
     return response[0]
   }
 
@@ -190,7 +193,8 @@ exports.getFileCaseInsensitive = async (
   projectId = null
 ) => {
   const escaped = `${RegExp.escape(filename)}$`
-  const [file] = await exports.listFiles(bucket, prefix, projectId)
+  const [file] = await exports
+    .listFiles(bucket, prefix, projectId)
     .then((files) =>
       files
         .filter((file) => {
